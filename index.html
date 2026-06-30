@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supriyo Pramanik</title>
+  <!-- Google Fonts: Space Grotesk and Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <!-- Three.js Canvas Background -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="logo">
+      <img src="/supriyo.jpg" alt="Supriyo" class="nav-avatar" />
+    </div>
+    <ul class="nav-links">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="hamburger">
+      <i class="fas fa-bars"></i>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section id="home" class="section hero-section">
+      <div class="hero-content" data-scroll-reveal>
+        <p class="greeting">Hello, I am</p>
+        <h1 class="main-title">
+          <span class="first-name">SUPRIYO</span>
+          <span class="last-name">PRAMANIK</span>
+        </h1>
+        <h2 class="subtitle">Aspiring Software Engineer</h2>
+        <p class="tagline">B.Tech CSE @ KIIT | BS Data Science @ IIT Madras</p>
+        <p class="description">Building the future with code, AI, and innovation.</p>
+
+        <div class="cta-container">
+          <a href="#projects" class="primary-btn">Explore My Work</a>
+          <a href="#contact" class="secondary-btn">Get In Touch</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about-section">
+      <div class="container">
+        <h2 class="section-title" data-scroll-reveal>ABOUT ME</h2>
+        <div class="title-underline"></div>
+
+        <div class="about-grid">
+          <div class="about-text glass-card" data-scroll-reveal>
+            <p>Hi! I am pursuing a B.Tech. in Computer Science and Engineering from the KIIT and a BS in Data Science
+              from IIT Madras—Because who would settle for one when they could have both?</p>
+
+            <p>Real-world problem solving with technology is my passion; therefore, I enjoy sitting at the crossroads of
+              computer science, data analytics, and innovation. From building efficient algorithms to refining machine
+              learning models and working on impactful projects, I am hungry to learn, experiment, and go beyond the
+              boundaries.</p>
+
+            <p><strong>What makes me different from the rest?</strong><br>
+              → Schooling in two best institutes of India: one year into this dual-degree journey of getting through
+              coursework and projects.<br>
+              → Programming and foundational knowledge like Python, C++, Java, data structures, and algorithms.<br>
+              → Team player with leadership qualities.<br>
+              → Never shy of challenges and questioning "why not?"</p>
+
+            <p><strong>Please connect if you:</strong><br>
+              → Have exciting projects or collaboration opportunities for me to consider<br>
+              → If you want to make something cool together?</p>
+
+            <p>For me, learning is doing, and I want to make a bigger impact on the world through technology. Let's
+              build a future—one line of code at a time.</p>
+
+            <div class="stats-container">
+              <div class="stat-box">
+                <h3 class="stat-number">2</h3>
+                <p class="stat-label">Degrees in Progress</p>
+              </div>
+              <div class="stat-box">
+                <h3 class="stat-number" id="project-count-val">-</h3>
+                <p class="stat-label">Projects</p>
+              </div>
+              <div class="stat-box">
+                <h3 class="stat-number" style="font-size: 1.45rem; text-shadow: 0 0 10px var(--secondary-glow);">SDE &
+                  WebDev</h3>
+                <p class="stat-label">Primary Focus</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section projects-section">
+      <div class="container">
+        <h2 class="section-title" data-scroll-reveal>MY PROJECTS</h2>
+        <div class="title-underline"></div>
+
+        <!-- Major Projects -->
+        <h3 class="project-category-title" data-scroll-reveal>Major Projects</h3>
+        <div class="projects-grid" style="margin-bottom: 5rem;">
+          <!-- PM Internship Portal -->
+          <div class="project-card glass-card" data-scroll-reveal>
+            <div class="project-header">
+              <i class="fas fa-robot project-icon"></i>
+              <div class="project-links">
+                <a href="https://github.com/I-AM-A-PROGRAMER/pm-internship-portal" target="_blank" class="github-link"
+                  title="View Source Code"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+            <h3 class="project-title">PM Internship Portal</h3>
+            <p class="project-desc">AI-Based Internship Recommendation Engine designed specifically for the PM
+              Internship Scheme.</p>
+            <div class="project-footer">
+              <div class="tech-tags">
+                <span class="tag">AI</span>
+                <span class="tag">Python</span>
+                <span class="tag">CSS</span>
+              </div>
+              <a href="#" class="project-action-btn under-dev-btn" onclick="event.preventDefault()"><i
+                  class="fas fa-hammer"></i> Under Development</a>
+            </div>
+          </div>
+
+          <!-- EduIntel AI -->
+          <div class="project-card glass-card" data-scroll-reveal>
+            <div class="project-header">
+              <i class="fas fa-brain project-icon"></i>
+              <div class="project-links">
+                <a href="https://github.com/I-AM-A-PROGRAMER/EduIntel_AI" target="_blank" class="github-link"
+                  title="View Source Code"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+            <h3 class="project-title">EduIntel AI</h3>
+            <p class="project-desc">AI performance metrics analysis engine using historical data for UGC and AICTE
+              academic approvals.</p>
+            <div class="project-footer">
+              <div class="tech-tags">
+                <span class="tag">AI</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">Node.js</span>
+              </div>
+              <a href="#" class="project-action-btn under-dev-btn" onclick="event.preventDefault()"><i
+                  class="fas fa-hammer"></i> Under Development</a>
+            </div>
+          </div>
+
+          <!-- ResQ-Link -->
+          <div class="project-card glass-card" data-scroll-reveal>
+            <div class="project-header">
+              <i class="fas fa-hand-holding-heart project-icon"></i>
+              <div class="project-links">
+                <a href="https://github.com/I-AM-A-PROGRAMER/ResQ-Link" target="_blank" class="github-link"
+                  title="View Source Code"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+            <h3 class="project-title">ResQ-Link</h3>
+            <p class="project-desc">Emergency response platform facilitating connection between community needs and aid.
+            </p>
+            <div class="project-footer">
+              <div class="tech-tags">
+                <span class="tag">JavaScript</span>
+                <span class="tag">Web</span>
+                <span class="tag">Realtime</span>
+              </div>
+              <a href="#" class="project-action-btn under-dev-btn" onclick="event.preventDefault()"><i
+                  class="fas fa-hammer"></i> Under Development</a>
+            </div>
+          </div>
+
+          <!-- WorkHub -->
+          <div class="project-card glass-card" data-scroll-reveal>
+            <div class="project-header">
+              <i class="fas fa-briefcase project-icon"></i>
+              <div class="project-links">
+                <a href="https://github.com/I-AM-A-PROGRAMER/WorkHub" target="_blank" class="github-link"
+                  title="View Source Code"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+            <h3 class="project-title">WorkHub</h3>
+            <p class="project-desc">Sleek workspace management and employee collaboration hub.</p>
+            <div class="project-footer">
+              <div class="tech-tags">
+                <span class="tag">JavaScript</span>
+                <span class="tag">React</span>
+                <span class="tag">CSS</span>
+              </div>
+              <a href="https://workhub.riyosup.dpdns.org" target="_blank" class="project-action-btn visit-btn">Visit
+                Site <i class="fas fa-external-link-alt"></i></a>
+            </div>
+          </div>
+
+          <!-- DevPulse -->
+          <div class="project-card glass-card" data-scroll-reveal>
+            <div class="project-header">
+              <i class="fas fa-chart-line project-icon"></i>
+              <div class="project-links">
+                <a href="https://github.com/I-AM-A-PROGRAMER/DevPulse" target="_blank" class="github-link"
+                  title="View Source Code"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+            <h3 class="project-title">DevPulse</h3>
+            <p class="project-desc">Developer activity dashboard and collaboration metrics platform.</p>
+            <div class="project-footer">
+              <div class="tech-tags">
+                <span class="tag">JavaScript</span>
+                <span class="tag">API</span>
+                <span class="tag">Metrics</span>
+              </div>
+              <a href="#" class="project-action-btn under-dev-btn" onclick="event.preventDefault()"><i
+                  class="fas fa-hammer"></i> Under Development</a>
+            </div>
+          </div>
+
+          <!-- Report2Remedy -->
+          <div class="project-card glass-card" data-scroll-reveal>
+            <div class="project-header">
+              <i class="fas fa-bullhorn project-icon"></i>
+              <div class="project-links">
+                <a href="https://github.com/I-AM-A-PROGRAMER/Report2Remedy" target="_blank" class="github-link"
+                  title="View Source Code"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+            <h3 class="project-title">Report2Remedy</h3>
+            <p class="project-desc">Citizen incident reporting and civic action community platform.</p>
+            <div class="project-footer">
+              <div class="tech-tags">
+                <span class="tag">JavaScript</span>
+                <span class="tag">Web</span>
+                <span class="tag">CivicTech</span>
+              </div>
+              <a href="#" class="project-action-btn under-dev-btn" onclick="event.preventDefault()"><i
+                  class="fas fa-hammer"></i> Under Development</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Minor Projects -->
+        <h3 class="project-category-title" data-scroll-reveal>Minor Projects</h3>
+        <div class="projects-grid">
+          <!-- Book Shop -->
+          <div class="project-card glass-card" data-scroll-reveal>
+            <div class="project-header">
+              <i class="fas fa-book project-icon"></i>
+              <div class="project-links">
+                <a href="https://github.com/I-AM-A-PROGRAMER/book-shop" target="_blank" class="github-link"
+                  title="View Source Code"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+            <h3 class="project-title">Book Shop</h3>
+            <p class="project-desc">An e-commerce website for cataloging and selling books.</p>
+            <div class="project-footer">
+              <div class="tech-tags">
+                <span class="tag">HTML</span>
+                <span class="tag">CSS</span>
+                <span class="tag">JavaScript</span>
+              </div>
+              <a href="#" class="project-action-btn under-dev-btn" onclick="event.preventDefault()"><i
+                  class="fas fa-hammer"></i> Under Development</a>
+            </div>
+          </div>
+
+          <!-- Weather App -->
+          <div class="project-card glass-card" data-scroll-reveal>
+            <div class="project-header">
+              <i class="fas fa-cloud-sun project-icon"></i>
+              <div class="project-links">
+                <a href="https://github.com/I-AM-A-PROGRAMER/Weather_app" target="_blank" class="github-link"
+                  title="View Source Code"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+            <h3 class="project-title">Weather App</h3>
+            <p class="project-desc">Real-time weather tracking application leveraging location weather APIs.</p>
+            <div class="project-footer">
+              <div class="tech-tags">
+                <span class="tag">HTML</span>
+                <span class="tag">CSS</span>
+                <span class="tag">API</span>
+              </div>
+              <a href="#" class="project-action-btn under-dev-btn" onclick="event.preventDefault()"><i
+                  class="fas fa-hammer"></i> Under Development</a>
+            </div>
+          </div>
+
+          <!-- Connect With Me -->
+          <div class="project-card glass-card" data-scroll-reveal>
+            <div class="project-header">
+              <i class="fas fa-address-card project-icon"></i>
+              <div class="project-links">
+                <a href="https://github.com/I-AM-A-PROGRAMER/connect-with-me" target="_blank" class="github-link"
+                  title="View Source Code"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+            <h3 class="project-title">Connect With Me</h3>
+            <p class="project-desc">An animated links and socials directory page to connect with Supriyo.</p>
+            <div class="project-footer">
+              <div class="tech-tags">
+                <span class="tag">CSS</span>
+                <span class="tag">HTML</span>
+                <span class="tag">Animations</span>
+              </div>
+              <a href="https://connect.riyosup.dpdns.org" target="_blank" class="project-action-btn visit-btn">Visit
+                Site <i class="fas fa-external-link-alt"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section skills-section">
+      <div class="container">
+        <h2 class="section-title" data-scroll-reveal>SKILLS & TECH</h2>
+        <div class="title-underline"></div>
+
+        <div class="skills-grid">
+          <div class="skill-category glass-card" data-scroll-reveal>
+            <h3>Languages</h3>
+            <div class="skills-list">
+              <div class="skill-item">
+                <span class="skill-name"><i class="fab fa-js skill-logo" style="color: #f7df1e;"></i> JavaScript</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-target="90"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <span class="skill-name"><i class="fab fa-python skill-logo" style="color: #3776ab;"></i> Python</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-target="85"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <span class="skill-name"><i class="fab fa-java skill-logo" style="color: #007396;"></i> Java</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-target="80"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <span class="skill-name"><i class="fab fa-html5 skill-logo" style="color: #e34f26;"></i> CSS/HTML</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-target="95"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="skill-category glass-card" data-scroll-reveal>
+            <h3>Frameworks & Tools</h3>
+            <div class="skills-list">
+              <div class="skill-item">
+                <span class="skill-name"><i class="fab fa-node-js skill-logo" style="color: #3c873a;"></i>
+                  Node.js</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-target="85"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <span class="skill-name"><i class="fab fa-github skill-logo" style="color: #ffffff;"></i> Git &
+                  GitHub</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-target="90"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <span class="skill-name"><i class="fas fa-robot skill-logo" style="color: #fa4616;"></i> UiPath</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-target="75"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <span class="skill-name"><i class="fas fa-cube skill-logo" style="color: #00d4ff;"></i> Three.js</span>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-target="70"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="skill-category glass-card" data-scroll-reveal>
+            <h3>Domains</h3>
+            <div class="domains-list">
+              <div class="domain-bubble"><i class="fas fa-robot" style="color: #6C63FF; margin-right: 0.5rem;"></i>
+                AI/Machine Learning</div>
+              <div class="domain-bubble"><i class="fas fa-database" style="color: #00D4FF; margin-right: 0.5rem;"></i>
+                Data Science</div>
+              <div class="domain-bubble"><i class="fas fa-server" style="color: #8B85FF; margin-right: 0.5rem;"></i>
+                Backend Development</div>
+              <div class="domain-bubble"><i class="fas fa-code" style="color: #00D4FF; margin-right: 0.5rem;"></i>
+                Competitive Programming</div>
+              <div class="domain-bubble"><i class="fas fa-laptop-code"
+                  style="color: #00D4FF; margin-right: 0.5rem;"></i> Web Development</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact-section">
+      <div class="container">
+        <h2 class="section-title" data-scroll-reveal>GET IN TOUCH</h2>
+        <div class="title-underline"></div>
+
+        <div class="contact-card glass-card" data-scroll-reveal>
+          <h3>Let's build something amazing together</h3>
+          <p>I'm currently looking for new opportunities and my inbox is always open. Whether you have a question or
+            just want to say hi, I'll try my best to get back to you!</p>
+
+          <div class="social-links">
+            <a href="#" class="social-btn email" id="copy-email-btn">
+              <i class="fas fa-envelope"></i>
+              <span>Email</span>
+              <span class="email-tooltip" id="email-tooltip">Click to copy</span>
+            </a>
+            <a href="https://www.linkedin.com/in/supriyopramanik/" target="_blank" class="social-btn linkedin">
+              <i class="fab fa-linkedin-in"></i>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://github.com/I-AM-A-PROGRAMER" target="_blank" class="social-btn github">
+              <i class="fab fa-github"></i>
+              <span>GitHub</span>
+            </a>
+            <a href="https://discordapp.com/users/728864663718330368" target="_blank" class="social-btn discord">
+              <i class="fab fa-discord"></i>
+              <span>Discord</span>
+            </a>
+            <a href="https://x.com/supriyo3606c" target="_blank" class="social-btn twitter">
+              <i class="fab fa-twitter"></i>
+              <span>Twitter</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2026 SUPRIYO PRAMANIK</p>
+    </footer>
+  </main>
+
+  <script type="module" src="/main.js"></script>
+</body>
+
+</html>
