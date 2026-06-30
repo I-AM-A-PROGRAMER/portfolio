@@ -1,8 +1,4 @@
 import './style.css';
-import * as THREE from 'three';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import gsap from 'gsap';
 
 // --- Scroll & Navigation Logic ---
@@ -79,172 +75,203 @@ revealElements.forEach(el => {
     revealObserver.observe(el);
 });
 
-// --- ADVANCED THREE.JS SCENE ---
-const canvas = document.querySelector('#bg-canvas');
-const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x0a0a0f, 0.02);
+// --- ADVANCED THREE.JS SCENE (LAZY LOADED FOR PAGESPEED PERFORMANCE) ---
+async function initThree() {
+    const THREE = await import('three');
+    const { EffectComposer } = await import('three/examples/jsm/postprocessing/EffectComposer.js');
+    const { RenderPass } = await import('three/examples/jsm/postprocessing/RenderPass.js');
+    const { UnrealBloomPass } = await import('three/examples/jsm/postprocessing/UnrealBloomPass.js');
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 25;
+    const canvas = document.querySelector('#bg-canvas');
+    if (!canvas) return;
 
-const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "high-performance" });
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.toneMapping = THREE.ReinhardToneMapping;
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x0a0a0f, 0.02);
 
-// Post-Processing (Bloom for that neon glowing look)
-const renderScene = new RenderPass(scene, camera);
-const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-bloomPass.threshold = 0;
-bloomPass.strength = 1.8; // Intense glow
-bloomPass.radius = 0.5;
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 25;
 
-const composer = new EffectComposer(renderer);
-composer.addPass(renderScene);
-composer.addPass(bloomPass);
-
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "high-performance" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
-    composer.setSize(window.innerWidth, window.innerHeight);
-});
+    renderer.toneMapping = THREE.ReinhardToneMapping;
 
-// --- 1. Morphing Data Core (Central Element) ---
-const coreGeometry = new THREE.IcosahedronGeometry(8, 15); // High detail
-const coreMaterial = new THREE.PointsMaterial({
-    size: 0.05,
-    color: 0x6C63FF,
-    transparent: true,
-    opacity: 0.8,
-    blending: THREE.AdditiveBlending
-});
+    // Post-Processing (Bloom effect active for all screens as requested)
+    const renderScene = new RenderPass(scene, camera);
+    const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+    bloomPass.threshold = 0;
+    bloomPass.strength = 1.8;
+    bloomPass.radius = 0.5;
 
-const coreMesh = new THREE.Points(coreGeometry, coreMaterial);
-scene.add(coreMesh);
+    const composer = new EffectComposer(renderer);
+    composer.addPass(renderScene);
+    composer.addPass(bloomPass);
 
-// Store original vertices for morphing math
-const corePositions = coreMesh.geometry.attributes.position.array;
-const originalPositions = [];
-for (let i = 0; i < corePositions.length; i += 3) {
-    originalPositions.push({ x: corePositions[i], y: corePositions[i+1], z: corePositions[i+2] });
-}
-
-// --- 2. Ambient Particles (Starfield / Dust) ---
-const particlesGeo = new THREE.BufferGeometry();
-const particleCount = 2000;
-const posArr = new Float32Array(particleCount * 3);
-
-for(let i = 0; i < particleCount * 3; i++) {
-    posArr[i] = (Math.random() - 0.5) * 200;
-}
-
-particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
-const particlesMat = new THREE.PointsMaterial({
-    size: 0.1,
-    color: 0x00D4FF,
-    transparent: true,
-    opacity: 0.6,
-    blending: THREE.AdditiveBlending
-});
-
-const ambientParticles = new THREE.Points(particlesGeo, particlesMat);
-scene.add(ambientParticles);
-
-// --- 3. Geometric Halos / Rings ---
-const halos = new THREE.Group();
-scene.add(halos);
-
-for (let i = 0; i < 3; i++) {
-    const ringGeo = new THREE.TorusGeometry(12 + (i * 3), 0.02, 16, 100);
-    const ringMat = new THREE.MeshBasicMaterial({ 
-        color: i % 2 === 0 ? 0x00D4FF : 0x6C63FF, 
-        transparent: true, 
-        opacity: 0.4,
-        wireframe: true
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        composer.setSize(window.innerWidth, window.innerHeight);
     });
-    const ring = new THREE.Mesh(ringGeo, ringMat);
-    ring.rotation.x = Math.random() * Math.PI;
-    ring.rotation.y = Math.random() * Math.PI;
-    ring.userData = { speedX: (Math.random() - 0.5) * 0.02, speedY: (Math.random() - 0.5) * 0.02 };
-    halos.add(ring);
-}
 
-// --- Interaction & Animation Logic ---
-const mouse = new THREE.Vector2(0, 0);
-let targetX = 0;
-let targetY = 0;
-let windowHalfX = window.innerWidth / 2;
-let windowHalfY = window.innerHeight / 2;
+    // --- 1. Morphing Data Core (Central Element) ---
+    const coreGeometry = new THREE.IcosahedronGeometry(8, 15);
+    const coreMaterial = new THREE.PointsMaterial({
+        size: 0.05,
+        color: 0x6C63FF,
+        transparent: true,
+        opacity: 0.8,
+        blending: THREE.AdditiveBlending
+    });
 
-document.addEventListener('mousemove', (event) => {
-    mouse.x = (event.clientX - windowHalfX);
-    mouse.y = (event.clientY - windowHalfY);
-});
+    const coreMesh = new THREE.Points(coreGeometry, coreMaterial);
+    scene.add(coreMesh);
 
-let scrollY = window.scrollY;
-window.addEventListener('scroll', () => {
-    scrollY = window.scrollY;
-});
-
-const clock = new THREE.Clock();
-
-function animate() {
-    requestAnimationFrame(animate);
-
-    const elapsedTime = clock.getElapsedTime();
-
-    // 1. Morph the Data Core using Sine waves
-    const positions = coreMesh.geometry.attributes.position.array;
-    for (let i = 0; i < originalPositions.length; i++) {
-        const i3 = i * 3;
-        const orig = originalPositions[i];
-        
-        // Complex math for liquid/morphing effect
-        const offset = 0.5 * Math.sin(orig.x * 0.5 + elapsedTime * 2) 
-                     + 0.5 * Math.cos(orig.y * 0.5 + elapsedTime * 1.5)
-                     + 0.5 * Math.sin(orig.z * 0.5 + elapsedTime * 1.2);
-
-        // Explode outward on scroll
-        const scrollEffect = Math.min((scrollY * 0.005), 5); // caps the explosion
-        
-        const scale = 1 + (offset * 0.2) + scrollEffect;
-
-        positions[i3] = orig.x * scale;
-        positions[i3+1] = orig.y * scale;
-        positions[i3+2] = orig.z * scale;
+    // Store original vertices for morphing math
+    const corePositions = coreMesh.geometry.attributes.position.array;
+    const originalPositions = [];
+    for (let i = 0; i < corePositions.length; i += 3) {
+        originalPositions.push({ x: corePositions[i], y: corePositions[i+1], z: corePositions[i+2] });
     }
-    coreMesh.geometry.attributes.position.needsUpdate = true;
-    
-    // Core base rotation
-    coreMesh.rotation.y += 0.002;
-    coreMesh.rotation.x += 0.001;
 
-    // 2. Halos Rotation & Scale on Scroll
-    halos.children.forEach(ring => {
-        ring.rotation.x += ring.userData.speedX;
-        ring.rotation.y += ring.userData.speedY;
+    // --- 2. Ambient Particles (Starfield / Dust) ---
+    const particlesGeo = new THREE.BufferGeometry();
+    const particleCount = 1200; // Reduced slightly from 2000 for mobile smoothness
+    const posArr = new Float32Array(particleCount * 3);
+
+    for(let i = 0; i < particleCount * 3; i++) {
+        posArr[i] = (Math.random() - 0.5) * 200;
+    }
+
+    particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
+    const particlesMat = new THREE.PointsMaterial({
+        size: 0.1,
+        color: 0x00D4FF,
+        transparent: true,
+        opacity: 0.6,
+        blending: THREE.AdditiveBlending
     });
-    const haloScale = 1 + (scrollY * 0.002);
-    halos.scale.set(haloScale, haloScale, haloScale);
 
-    // 3. Ambient Particles Flow & Scale on Scroll
-    ambientParticles.rotation.y = elapsedTime * 0.05;
-    const particleScale = 1 + (scrollY * 0.001);
-    ambientParticles.scale.set(particleScale, particleScale, particleScale);
-    
-    // 4. Parallax based on Mouse (Smoothly move the whole scene)
-    targetX = mouse.x * 0.001;
-    targetY = mouse.y * 0.001;
-    
-    scene.rotation.y += 0.05 * (targetX - scene.rotation.y);
-    scene.rotation.x += 0.05 * (targetY - scene.rotation.x);
+    const ambientParticles = new THREE.Points(particlesGeo, particlesMat);
+    scene.add(ambientParticles);
 
-    // Render using composer for the Bloom effect
-    composer.render();
+    // --- 3. Geometric Halos / Rings ---
+    const halos = new THREE.Group();
+    scene.add(halos);
+
+    for (let i = 0; i < 3; i++) {
+        const ringGeo = new THREE.TorusGeometry(12 + (i * 3), 0.02, 16, 80);
+        const ringMat = new THREE.MeshBasicMaterial({ 
+            color: i % 2 === 0 ? 0x00D4FF : 0x6C63FF, 
+            transparent: true, 
+            opacity: 0.4,
+            wireframe: true
+        });
+        const ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.rotation.x = Math.random() * Math.PI;
+        ring.rotation.y = Math.random() * Math.PI;
+        ring.userData = { speedX: (Math.random() - 0.5) * 0.02, speedY: (Math.random() - 0.5) * 0.02 };
+        halos.add(ring);
+    }
+
+    // --- Interaction & Animation Logic ---
+    const mouse = new THREE.Vector2(0, 0);
+    let targetX = 0;
+    let targetY = 0;
+    let windowHalfX = window.innerWidth / 2;
+    let windowHalfY = window.innerHeight / 2;
+
+    document.addEventListener('mousemove', (event) => {
+        mouse.x = (event.clientX - windowHalfX);
+        mouse.y = (event.clientY - windowHalfY);
+    });
+
+    let scrollY = window.scrollY;
+    window.addEventListener('scroll', () => {
+        scrollY = window.scrollY;
+    });
+
+    const clock = new THREE.Clock();
+    let isTabActive = true;
+    let animationFrameId = null;
+
+    document.addEventListener('visibilitychange', () => {
+        isTabActive = !document.hidden;
+        if (isTabActive) {
+            clock.getDelta(); // Reset clock delta
+            animate();
+        } else if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+        }
+    });
+
+    function animate() {
+        if (!isTabActive) return;
+        animationFrameId = requestAnimationFrame(animate);
+
+        const elapsedTime = clock.getElapsedTime();
+
+        // 1. Morph the Data Core using Sine waves
+        const positions = coreMesh.geometry.attributes.position.array;
+        for (let i = 0; i < originalPositions.length; i++) {
+            const i3 = i * 3;
+            const orig = originalPositions[i];
+            
+            const offset = 0.5 * Math.sin(orig.x * 0.5 + elapsedTime * 2) 
+                         + 0.5 * Math.cos(orig.y * 0.5 + elapsedTime * 1.5)
+                         + 0.5 * Math.sin(orig.z * 0.5 + elapsedTime * 1.2);
+
+            const scrollEffect = Math.min((scrollY * 0.005), 5);
+            
+            const scale = 1 + (offset * 0.2) + scrollEffect;
+
+            positions[i3] = orig.x * scale;
+            positions[i3+1] = orig.y * scale;
+            positions[i3+2] = orig.z * scale;
+        }
+        coreMesh.geometry.attributes.position.needsUpdate = true;
+        
+        coreMesh.rotation.y += 0.002;
+        coreMesh.rotation.x += 0.001;
+
+        // 2. Halos Rotation & Scale on Scroll
+        halos.children.forEach(ring => {
+            ring.rotation.x += ring.userData.speedX;
+            ring.rotation.y += ring.userData.speedY;
+        });
+        const haloScale = 1 + (scrollY * 0.002);
+        halos.scale.set(haloScale, haloScale, haloScale);
+
+        // 3. Ambient Particles Flow & Scale on Scroll
+        ambientParticles.rotation.y = elapsedTime * 0.05;
+        const particleScale = 1 + (scrollY * 0.001);
+        ambientParticles.scale.set(particleScale, particleScale, particleScale);
+        
+        // 4. Parallax based on Mouse (Smoothly move the whole scene)
+        targetX = mouse.x * 0.001;
+        targetY = mouse.y * 0.001;
+        
+        scene.rotation.y += 0.05 * (targetX - scene.rotation.y);
+        scene.rotation.x += 0.05 * (targetY - scene.rotation.x);
+
+        composer.render();
+    }
+
+    animate();
+    // Fade in canvas smoothly once loaded
+    requestAnimationFrame(() => {
+        canvas.style.opacity = '1';
+    });
 }
 
-animate();
+// Defer Three.js loading by 400ms to allow main thread to paint initial layout immediately
+if (document.readyState === 'complete') {
+    setTimeout(initThree, 400);
+} else {
+    window.addEventListener('load', () => {
+        setTimeout(initThree, 400);
+    });
+}
 
 // --- Entrance Animations ---
 gsap.from(".greeting", { y: -30, opacity: 0, duration: 1, delay: 0.2 });

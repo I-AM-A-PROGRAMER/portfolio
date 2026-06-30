@@ -58,7 +58,6 @@ body {
   background: var(--secondary);
 }
 
-/* Three.js Canvas */
 #bg-canvas {
   position: fixed;
   top: 0;
@@ -67,6 +66,8 @@ body {
   height: 100vh;
   z-index: -1;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.5s ease;
 }
 
 /* Typography elements */
