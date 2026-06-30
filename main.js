@@ -27,7 +27,7 @@ hamburger.addEventListener('click', () => {
 
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
-        if (window.innerWidth <= 768) {
+        if (window.innerWidth <= 992) {
             navMenu.classList.remove('nav-active');
             const icon = hamburger.querySelector('i');
             icon.classList.remove('fa-times');
@@ -296,11 +296,13 @@ if (copyEmailBtn && emailTooltip) {
         const email = 'supriyo3606c@gmail.com';
         navigator.clipboard.writeText(email).then(() => {
             emailTooltip.textContent = 'Copied to clipboard!';
+            emailTooltip.classList.add('active');
             emailTooltip.style.borderColor = 'var(--secondary)';
             emailTooltip.style.boxShadow = '0 0 10px var(--secondary-glow)';
             
             setTimeout(() => {
                 emailTooltip.textContent = 'Click to copy';
+                emailTooltip.classList.remove('active');
                 emailTooltip.style.borderColor = 'var(--primary)';
                 emailTooltip.style.boxShadow = '0 0 10px var(--primary-glow)';
             }, 2000);
